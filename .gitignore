@@ -24,8 +24,10 @@ output/
 .idea/
 .vscode/
 
-# Secrets
+# Secrets & Credentials
 .env
+cookies.txt
+*.cookie
 
 # Generated metadata
 *_metadata.json
@@ -41,7 +43,6 @@ output/
 skills/*
 !skills/openshorts/
 skills-lock.json
-
 
 # Cloud env example kept local only (avoid leaking infra hints)
 .env.cloud.example
