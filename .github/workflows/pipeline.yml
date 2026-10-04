@@ -36,6 +36,17 @@ jobs:
       - name: Run Pipeline Test
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          FAL_KEY: ${{ secrets.FAL_KEY }}
+          UPLOAD_POST_API_KEY: ${{ secrets.UPLOAD_POST_API_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
           YOUTUBE_COOKIES: ${{ secrets.YOUTUBE_COOKIES }}
+          AUTO_CAPTIONS: 1
+          AUTO_HOOK: 1
         run: |
-          python main.py -u "https://www.youtube.com/watch?v=lIo9FcrljDk" --format auto
+          # Fallback URL if TARGET_URL is not set
+          TARGET_URL="${TARGET_URL:-https://www.youtube.com/watch?v=h2aWYjSA1Jc}"
+          python main.py -u "$TARGET_URL" --format auto
