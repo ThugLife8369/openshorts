@@ -47,6 +47,16 @@ jobs:
           AUTO_CAPTIONS: 1
           AUTO_HOOK: 1
         run: |
-          # Fallback URL if TARGET_URL is not set
+          # Use user-provided input if available, else fall back to default
           TARGET_URL="${TARGET_URL:-https://www.youtube.com/watch?v=h2aWYjSA1Jc}"
           python main.py -u "$TARGET_URL" --format auto
+
+      - name: Upload Output Artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: processed-clips
+          path: |
+            ./*.mp4
+            ./*.json
+            ./*.txt
