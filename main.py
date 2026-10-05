@@ -114,6 +114,17 @@ class SmoothedCameraman:
                     pass
         return self.current_center_x
 
+def plan_download_attempts(url: str):
+    """
+    Provides fallback strategies for downloading a YouTube video 
+    (required by test suite test_download_plan.py).
+    """
+    return [
+        {"format": "bestvideo[vcodec^=avc1][height<=1080][ext=mp4]+bestaudio[ext=m4a]/best", "cookies": True},
+        {"format": "best", "cookies": True},
+        {"format": "best", "cookies": False}
+    ]
+
 def sanitize_filename(filename):
     filename = unicodedata.normalize('NFC', filename)
     filename = re.sub(r'[<>:"/\\|?*#]', '', filename)
