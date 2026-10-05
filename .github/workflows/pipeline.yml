@@ -34,7 +34,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Run Pipeline
-        # THIS IS THE CRITICAL BLOCK: It passes the secrets to main.py
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
@@ -48,7 +47,8 @@ jobs:
           AUTO_CAPTIONS: 1
           AUTO_HOOK: 1
         run: |
-          TARGET_URL="${TARGET_URL:-[https://www.youtube.com/watch?v=h2aWYjSA1Jc](https://www.youtube.com/watch?v=h2aWYjSA1Jc)}"
+          # Clean raw URL without markdown artifacts
+          TARGET_URL="${TARGET_URL:-https://www.youtube.com/watch?v=h2aWYjSA1Jc}"
           python main.py -u "$TARGET_URL" --format auto
           
       - name: Upload Output Artifacts
