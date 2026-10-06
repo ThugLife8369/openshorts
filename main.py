@@ -18,7 +18,7 @@ import json
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import numpy as np
-from tqdm tqdm
+from tqdm import tqdm
 import yt_dlp
 import mediapipe as mp
 import boto3
