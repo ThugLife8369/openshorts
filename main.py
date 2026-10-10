@@ -1,7 +1,7 @@
 """
 OpenShorts Main Pipeline Runner
 Complete production-ready version with test suite compliance, 
-cookie injection, safety caps, and robust fallbacks.
+cookie injection, safety caps, robust fallbacks, and native scene detection.
 """
 
 import time
@@ -139,6 +139,29 @@ def load_transcript_checkpoint(job_dir, source_path, duration):
     except Exception:
         pass
     return None
+
+def detect_scenes(video_path, threshold=30.0):
+    """
+    Detects scene cuts in the video using PySceneDetect 
+    to enable intelligent scene-aware vertical framing.
+    """
+    try:
+        from scenedetect import SceneManager, VideoManager
+        from scenedetect.detectors import ContentDetector
+        
+        video_manager = VideoManager([video_path])
+        scene_manager = SceneManager()
+        scene_manager.add_detector(ContentDetector(threshold=threshold))
+        
+        video_manager.start()
+        scene_manager.detect_scenes(frame_source=video_manager)
+        scene_list = scene_manager.get_scene_list()
+        video_manager.release()
+        
+        return [(start.get_seconds(), end.get_seconds()) for start, end in scene_list]
+    except Exception as e:
+        print(f"Warning: Scene detection fallback triggered due to error: {e}")
+        return []
 
 class SpeakerTracker:
     def __init__(self, cooldown_frames=30):
